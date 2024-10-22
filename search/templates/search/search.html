@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EpiSearch</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #f2f2f2;
+            font-family: 'Open Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .rslt-for {
+            margin-top: 10rem;
+        }
+
+        .search-container {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 800px;
+            z-index: 1000;
+        }
+
+        .wrap {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .search {
+            width: 100%;
+            position: relative;
+            display: flex;
+        }
+
+        .searchTerm {
+            width: 100%;
+            border: 3px solid #00B4CC;
+            border-right: none;
+            padding: 15px;
+            height: 60px;
+            border-radius: 30px 0 0 30px;
+            outline: none;
+            color: #9DBFAF;
+            font-size: 18px;
+        }
+
+        .searchTerm:focus {
+            color: #00B4CC;
+        }
+
+        .searchButton {
+            width: 10rem;
+            height: 3.7rem;
+            border: 1px solid #00B4CC;
+            background: #00B4CC;
+            text-align: center;
+            color: white;
+            border-radius: 0 30px 30px 0;
+            cursor: pointer;
+            font-size: 24px;
+        }
+
+        .fa-search {
+            font-size: 24px;
+        }
+
+        .search-results-container {
+            margin-top: 120px;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .search-results {
+            width: 100%;
+            max-width: 800px;
+            list-style: none;
+            padding: 0;
+        }
+
+        .result-item {
+            margin-bottom: 25px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .result-url {
+            font-size: 14px;
+            color: #00cc6d;
+        }
+
+        .result-title {
+            font-size: 18px;
+            color: #333;
+            text-decoration: none;
+        }
+
+        .result-title:hover {
+            text-decoration: underline;
+        }
+
+        .result-description {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 8px;
+        }
+
+        .no-results {
+            color: #d93025;
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 40px;
+            color: #333;
+        }
+    </style>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+
+    <div class="search-container">
+        <div class="wrap">
+            <form method="GET">
+                <div class="search">
+                    <input type="text" class="searchTerm" placeholder="What are you looking for?" name="query">
+                    <button type="submit" class="searchButton">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <h2 class="rslt-for">Results for "{{ query }}"</h2>
+    <div class="search-results-container">
+        {% if query %}
+            <ul class="search-results">
+                {% if results %}
+                    {% for result in results %}
+                        <li class="result-item">
+                            <div class="result-url">{{ result.url }}</div>
+                            <a class="result-title" href="{{ result.url }}" target="_blank">{{ result.url }}</a>
+                            <p class="result-description">{{ result.content|slice:":200" }}...</p>
+                        </li>
+                    {% endfor %}
+                {% else %}
+                    <p class="no-results">No results found.</p>
+                {% endif %}
+            </ul>
+        {% endif %}
+    </div>
+
+</body>
+</html>
